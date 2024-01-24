@@ -17,8 +17,6 @@ public class DriveTrainCommand extends Command {
         addRequirements(driveTrain);
         this.speed = speed;
         this.rot = rot;
-
-
     }
 
 

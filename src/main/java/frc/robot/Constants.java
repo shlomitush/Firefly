@@ -15,13 +15,6 @@ package frc.robot;
 public final class Constants {
 
   public static class OperatorConstants {
-
-
-
-
-
-
-
     public static final int kDriverControllerPort = 0;
   }
 
@@ -39,5 +32,12 @@ public final class Constants {
     public static final int intakepistonforward = 21;
     public static final int intakepistonrevers = 22;
   }
+
+  public static class FlyWheel {
+    public static final int flyWheelMotorID = 21;
+    public static final double flyWheelMotorSpeed = 0.3;
+  }
+
+
 
 }
