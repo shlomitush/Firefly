@@ -1,20 +1,23 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 
 import java.util.function.DoubleSupplier;
 
-public class DriveTrainCommand extends CommandBase {
-    DriveTrain m_driveTrain;
-    DoubleSupplier speed;
-    DoubleSupplier rot;
+public class DriveTrainCommand extends Command {
+    private DriveTrain m_driveTrain;
+    private DoubleSupplier speed;
+    private DoubleSupplier rot;
 
     public DriveTrainCommand(DriveTrain driveTrain, DoubleSupplier speed, DoubleSupplier rot){
         m_driveTrain = driveTrain;
         addRequirements(driveTrain);
         this.speed = speed;
         this.rot = rot;
+
 
     }
 

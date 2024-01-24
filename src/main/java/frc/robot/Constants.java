@@ -26,12 +26,12 @@ public final class Constants {
   }
 
   public static class driveTrain{
-    public static final int rightFollowerPort = 3;
-    public static final int leftFollowerPort = 1;
-    public static final int LeftLeaderPort = 0;
-    public static final int rightLeaderPort = 2;
+    public static final int rightFollowerPort = 11;
+    public static final int leftFollowerPort = 14;
+    public static final int leftLeaderPort = 13;
+    public static final int rightLeaderPort = 12;
 
-    public static final double sensitivity = 0.5;
+    public static final double sensitivity = 0.85;
   }
 
   public static class InTake {

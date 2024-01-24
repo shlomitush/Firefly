@@ -1,9 +1,10 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkLowLevel;
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,13 +17,11 @@ import static frc.robot.Constants.driveTrain.*;
 
 public class DriveTrain extends SubsystemBase {
 
-    private final Spark rightFollower = new Spark(rightFollowerPort);
-    private final Spark leftLeader = new Spark(LeftLeaderPort);
-    private final Spark leftFollower = new Spark(leftFollowerPort);
-    private final Spark rightLeader = new Spark(rightLeaderPort);
-    private final MotorControllerGroup rightMotors = new MotorControllerGroup(rightLeader, rightFollower);
-    private final MotorControllerGroup leftMotors = new MotorControllerGroup(leftLeader, leftFollower);
-    private final DifferentialDrive drive = new DifferentialDrive(rightMotors, leftMotors);
+    private final CANSparkMax rightLeader = new CANSparkMax(rightLeaderPort, CANSparkLowLevel.MotorType.kBrushed);
+    private final CANSparkMax rightFollower = new CANSparkMax(rightFollowerPort, CANSparkLowLevel.MotorType.kBrushed);
+    private final CANSparkMax leftLeader = new CANSparkMax(leftLeaderPort, CANSparkLowLevel.MotorType.kBrushed);
+    private final CANSparkMax leftFollower = new CANSparkMax(leftFollowerPort, CANSparkLowLevel.MotorType.kBrushed);
+    private final DifferentialDrive drive = new DifferentialDrive(rightLeader, leftLeader);
 //private final DifferentialDrive drive = new DifferentialDrive(rightFollower, new Spark(6));
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
@@ -30,28 +29,37 @@ public class DriveTrain extends SubsystemBase {
 
 
     public DriveTrain(){
+        leftFollower.follow(leftLeader);
+        rightFollower.follow(rightLeader);
+        rightLeader.setInverted(true);
 
-        leftMotors.setInverted(true);
+        gyro.reset();
     }
 
-
-
+    private double speedSens(double speed) {
+//        return Math.min(1, speed + 0.3);
+        return speed;
+    }
 
     public void drive(double speed, double rotation) {
-        drive.arcadeDrive(speed, rotation);
+        drive.arcadeDrive(speedSens(speed), speedSens(rotation));
     }
 
-    public Command driveTrainCommand(DoubleSupplier speed, DoubleSupplier rot) {
-//        gyro.getYaw();
-        return new RunCommand(
-                () -> drive(speed.getAsDouble(), rot.getAsDouble())
-                , this
-        );
-    }
+//    public Command driveTrainCommand(DoubleSupplier speed, DoubleSupplier rot) {
+////        gyro.getYaw();
+//        return new RunCommand(
+//                () -> drive(speed.getAsDouble(), rot.getAsDouble())
+//                , this
+//        );
+//    }
 
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("robot angle", gyro.getAngle() );
+        SmartDashboard.putNumber("robot angle", getRobotAngle());
+    }
+
+    public double getRobotAngle(){
+        return gyro.getAngle();
     }
 }
