@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -23,6 +24,7 @@ public class DriveTrain extends SubsystemBase {
     private final CANSparkMax leftFollower = new CANSparkMax(leftFollowerPort, CANSparkLowLevel.MotorType.kBrushed);
     private final DifferentialDrive drive = new DifferentialDrive(rightLeader, leftLeader);
 //private final DifferentialDrive drive = new DifferentialDrive(rightFollower, new Spark(6));
+    public static final DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(0.44);
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
@@ -42,7 +44,11 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void drive(double speed, double rotation) {
-        drive.arcadeDrive(speedSens(speed), speedSens(rotation));
+        drive.arcadeDrive(speed, rotation);
+    }
+
+    public void stopDrive() {
+        drive.stopMotor();
     }
 
 //    public Command driveTrainCommand(DoubleSupplier speed, DoubleSupplier rot) {

@@ -38,6 +38,16 @@ public final class Constants {
     public static final double flyWheelMotorSpeed = 0.3;
   }
 
+  public static class FloorIntake {
+    public static final int floorIntakeID = 0;
+    public static final int floorIntakeSpeed = 9;
+  }
+
+  public static class Climb {
+    public static final int climbMotorID = 0;
+    public static final double climbMotorSpeed = 0.5;
+  }
+
 
 
 }
