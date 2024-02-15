@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -31,7 +31,7 @@ public class DriveTrainCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        m_driveTrain.drive(0,0);
+        m_driveTrain.stopDrive();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Drive;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -40,7 +40,7 @@ public class TurnToAngle extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        driveTrain.drive(0,0);
+        driveTrain.stopDrive();
     }
 
     @Override

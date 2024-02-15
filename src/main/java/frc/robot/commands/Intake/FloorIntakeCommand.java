@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FloorIntake;
 
@@ -13,7 +13,7 @@ public class FloorIntakeCommand extends Command {
 
     @Override
     public void initialize() {
-        this.floorIntake.pickUpFromFloor ();
+        this.floorIntake.pickUpFromFloor();
     }
 
     @Override
@@ -22,7 +22,7 @@ public class FloorIntakeCommand extends Command {
 
     @Override
 public void end (boolean interrupted){
-        this.floorIntake.stopPickUpFromFloor();
+        this.floorIntake.stop();
     }
 
     @Override

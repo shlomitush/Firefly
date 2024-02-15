@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.ThrowWheel;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlyWheel;
@@ -25,7 +25,7 @@ private FlyWheel flyWheel;
 
     @Override
     public void end(boolean interrupted) {
-        this.flyWheel.stopThrow();
+        this.flyWheel.stop();
     }
 
     @Override

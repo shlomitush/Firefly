@@ -27,27 +27,40 @@ public final class Constants {
     public static final double sensitivity = 0.85;
   }
 
-  public static class InTake {
-    public static final int intakemotorid = 20;
-    public static final int intakepistonforward = 21;
-    public static final int intakepistonrevers = 22;
-  }
 
   public static class FlyWheel {
-    public static final int flyWheelMotorID = 21;
-    public static final double flyWheelMotorSpeed = 0.3;
+    public static final int flyWheelMotorIDLeader = 21;
+
+    public static final int flyWheelMotorIDFollower = 22;
+    public static final double flyWheelMotorSpeedThrow = 1;
+    public static final double flyWheelMotorSpeedIn = -0.8;
+
   }
 
   public static class FloorIntake {
-    public static final int floorIntakeID = 0;
-    public static final int floorIntakeSpeed = 9;
+    public static final int floorIntakeMotorID = 31;
+    public static final int floorIntakeSpeed = 1;
   }
 
   public static class Climb {
-    public static final int climbMotorID = 0;
+    public static final int climbMotorID = 41;
     public static final double climbMotorSpeed = 0.5;
   }
 
+  public static class PollyIntake {
+    public static final int pollyIntakeMotorID = 32;
+    public static final double pollyIntakeSpeedFloor = 0.3;
+    public static final double pollyIntakeSpeedFeeder = 0.7;
+    public static final double pollyIntakeSpeedBack = 0.3;
+
+  }
+
+public static class TurnToAngle {
+    public static double kp = 0.003;
+  public static double ki = 0;
+  public static double kd = 0;
+
+}
 
 
 }

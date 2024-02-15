@@ -24,7 +24,6 @@ public class DriveTrain extends SubsystemBase {
     private final CANSparkMax leftFollower = new CANSparkMax(leftFollowerPort, CANSparkLowLevel.MotorType.kBrushed);
     private final DifferentialDrive drive = new DifferentialDrive(rightLeader, leftLeader);
 //private final DifferentialDrive drive = new DifferentialDrive(rightFollower, new Spark(6));
-    public static final DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(0.44);
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
