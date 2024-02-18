@@ -1,14 +1,14 @@
-package frc.robot.commands.Intake;
+package frc.robot.commands.ThrowWheel;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlyWheel;
 import frc.robot.subsystems.PollyIntake;
 
-public class FeederIn extends Command {
+public class ThrowAMP extends Command {
     private PollyIntake pollyIntake;
     private FlyWheel flyWheel;
 
-    public FeederIn(PollyIntake pollyIntake, FlyWheel flyWheel) {
+    public ThrowAMP(PollyIntake pollyIntake, FlyWheel flyWheel) {
         this.flyWheel = flyWheel;
         this.pollyIntake = pollyIntake;
         addRequirements(pollyIntake, flyWheel);
@@ -16,19 +16,19 @@ public class FeederIn extends Command {
 
     @Override
     public void initialize() {
-        this.pollyIntake.inFeeder();
-        this.flyWheel.wheelIn();
+        this.flyWheel.throwAMP();
+        this.pollyIntake.upOut();
     }
 
     @Override
     public void execute() {
-
+        super.execute();
     }
 
     @Override
     public void end(boolean interrupted) {
-        this.flyWheel.stop();
-        this.pollyIntake.stop();
+        pollyIntake.stop();
+        flyWheel.stop();
     }
 
     @Override

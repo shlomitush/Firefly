@@ -22,10 +22,8 @@ public class Throw extends Command {
 
     @Override
     public void initialize() {
-
-        this.pollyIntake.backALittle();
         this.flyWheel.throwWheel();
-//        this.timer.
+//        this.timer.advanceIfElapsed(1.5);
         this.pollyIntake.upOut();
     }
 

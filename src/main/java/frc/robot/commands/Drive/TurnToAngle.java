@@ -29,10 +29,10 @@ public class TurnToAngle extends Command {
     @Override
     public void execute() {
         double rotation = this.pidController.calculate(driveTrain.getRobotAngle(), this.setPoint);
-        System.out.println("in execute, rotating at speed: " + Math.max(Math.abs(rotation), 0.4 ) * Math.signum(rotation));
+        System.out.println("in execute, rotating at speed: " + rotation);
 //        System.out.println("in execute, rotating at speed: " + rotation);
 
-        driveTrain.drive(0, Math.max(Math.abs(rotation), 0.4 ) * Math.signum(rotation));
+        driveTrain.drive(0, rotation);
 //        driveTrain.drive(0, rotation);
 
         System.out.println(pidController.getPositionError());

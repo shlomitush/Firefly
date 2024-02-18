@@ -1,23 +1,29 @@
-package frc.robot.commands.Intake;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.FloorIntake;
 import frc.robot.subsystems.FlyWheel;
 import frc.robot.subsystems.PollyIntake;
 
-public class FeederIn extends Command {
+public class SlowUpOut extends Command {
     private PollyIntake pollyIntake;
     private FlyWheel flyWheel;
+    private FloorIntake floorIntake;
 
-    public FeederIn(PollyIntake pollyIntake, FlyWheel flyWheel) {
+    public SlowUpOut(PollyIntake pollyIntake, FlyWheel flyWheel, FloorIntake floorIntake) {
         this.flyWheel = flyWheel;
         this.pollyIntake = pollyIntake;
-        addRequirements(pollyIntake, flyWheel);
+        this.floorIntake = floorIntake;
+        addRequirements(pollyIntake, flyWheel, floorIntake);
     }
 
     @Override
     public void initialize() {
-        this.pollyIntake.inFeeder();
-        this.flyWheel.wheelIn();
+        this.pollyIntake.slowUpOut();
+        //wait 0.5 s
+        this.flyWheel.slowUpOut();
+        // wait 0.2 s
+        this.floorIntake.slowUpOut();
     }
 
     @Override
@@ -29,6 +35,7 @@ public class FeederIn extends Command {
     public void end(boolean interrupted) {
         this.flyWheel.stop();
         this.pollyIntake.stop();
+        this.floorIntake.stop();
     }
 
     @Override
@@ -36,3 +43,4 @@ public class FeederIn extends Command {
         return super.isFinished();
     }
 }
+

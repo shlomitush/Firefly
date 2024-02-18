@@ -15,31 +15,36 @@ public class FloorIntake extends SubsystemBase {
         floorIntake.setInverted(true);
     }
 
+    /**
+     * for picking from floor
+     */
     public void pickUpFromFloor() {
         floorIntake.set(ControlMode.PercentOutput, floorIntakeSpeed);
-
-//        floorIntake.set(TalonSRXControlMode.Current, floorIntakeSpeed);
     }
 
+    /**
+     * for when throwing out to the floor
+     */
     public void downOut() {
         floorIntake.set(ControlMode.PercentOutput, -1);
-
     }
 
+    /**
+     * for when throwing out up
+     */
     public void upOut() {
         floorIntake.set(ControlMode.PercentOutput, 1);
-
     }
 
+    /**
+     * stops motors
+     */
     public void stop() {
         floorIntake.set(ControlMode.PercentOutput, 0);
-
-//        floorIntake.set(TalonSRXControlMode.Current, 0);
     }
 
 
-
-
-
-
+    public void slowUpOut() {
+        floorIntake.set(ControlMode.PercentOutput, floorIntakeSlowUpOutSpeed);
+    }
 }

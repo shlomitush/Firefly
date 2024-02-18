@@ -13,41 +13,57 @@ public class FlyWheel extends SubsystemBase {
 
     private final CANSparkMax flyWheelMotorFollower = new CANSparkMax(flyWheelMotorIDFollower, CANSparkLowLevel.MotorType.kBrushed);
 
-    public FlyWheel(int x){
-//        flyWheelMotorFollower.setInverted(true);
-//        flyWheelMotorFollower.follow(flyWheelMotorLeader);
-//        flyWheelMotorFollower.setInverted(true);
-//        flyWheelMotorLeader.setInverted(false);
-//        flyWheelMotorFollower.setInverted(true);
-//        flyWheelMotorLeader.setInverted(true);
-
-
+    public FlyWheel(){
     }
 
 
+    /**
+     * starts flywheel motor at the appropriate speed for throwing to the speaker
+     */
     public void throwWheel() {
         flyWheelMotorLeader.set(-flyWheelMotorSpeedThrow);
         flyWheelMotorFollower.set(-flyWheelMotorSpeedThrow);
     }
 
-    public void stop() {
-        flyWheelMotorLeader.set(0);
-        flyWheelMotorFollower.set(0);
+    public void throwAMP() {
+        flyWheelMotorLeader.set(-flyWheelMotorSpeedAMP);
+        flyWheelMotorFollower.set(-flyWheelMotorSpeedAMP);
     }
 
+
+    /**
+     * for when throwing out up
+     */
     public void upOut() {
         flyWheelMotorLeader.set(-1);
         flyWheelMotorFollower.set(-1);
     }
-
+    /**
+     * for when throwing out to the floor
+     */
     public void downOut() {
         flyWheelMotorLeader.set(1);
         flyWheelMotorFollower.set(1);
     }
 
+    /**
+     * when taking in a wheel from the feeder
+     */
     public void wheelIn() {
-        flyWheelMotorLeader.set(-flyWheelMotorSpeedIn);
-        flyWheelMotorFollower.set(-flyWheelMotorSpeedIn);
+        flyWheelMotorLeader.set(flyWheelMotorSpeedFeederIn);
+        flyWheelMotorFollower.set(flyWheelMotorSpeedFeederIn);
     }
 
+    /**
+     * stops motors
+     */
+    public void stop() {
+        flyWheelMotorLeader.set(0);
+        flyWheelMotorFollower.set(0);
+    }
+
+    public void slowUpOut() {
+        flyWheelMotorLeader.set(-flyWheelSlowUpOutSpeed);
+        flyWheelMotorLeader.set(-flyWheelSlowUpOutSpeed);
+    }
 }

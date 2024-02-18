@@ -1,21 +1,27 @@
 package frc.robot.commands.ThrowWheel;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlyWheel;
+import frc.robot.subsystems.PollyIntake;
 
-public class FlyWheelCommand extends Command {
+public class BackALittle extends Command {
+    private PollyIntake pollyIntake;
+    private FlyWheel flyWheel;
+    private Timer timer = new Timer();
 
-private FlyWheel flyWheel;
 
-    public FlyWheelCommand(FlyWheel flyWheel) {
+    public BackALittle(PollyIntake pollyIntake, FlyWheel flyWheel) {
+        this.pollyIntake = pollyIntake;
         this.flyWheel = flyWheel;
-        addRequirements(flyWheel);
+        addRequirements(pollyIntake, flyWheel);
+
     }
 
     @Override
     public void initialize() {
+        this.pollyIntake.backALittle();
         this.flyWheel.throwWheel();
-
     }
 
     @Override
@@ -25,7 +31,7 @@ private FlyWheel flyWheel;
 
     @Override
     public void end(boolean interrupted) {
-        this.flyWheel.stop();
+        this.pollyIntake.stop();
     }
 
     @Override

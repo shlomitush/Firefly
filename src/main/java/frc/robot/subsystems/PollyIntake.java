@@ -15,39 +15,59 @@ public class PollyIntake extends SubsystemBase {
     }
 
 
-
-
+    /**
+     * for when taking from the floor
+     */
     public void floorIn() {
-        pollyIntakeMotor.set(ControlMode.PercentOutput, pollyIntakeSpeedFloor);
+        pollyIntakeMotor.set(ControlMode.PercentOutput, pollyIntakeSpeedFloorIn);
     }
 
+    /**
+     * for when throwing out to the floor
+     */
     public void downOut() {
         pollyIntakeMotor.set(ControlMode.PercentOutput, -1);
     }
 
+    /**
+     * for when throwing out up
+     */
     public void upOut() {
         pollyIntakeMotor.set(ControlMode.PercentOutput, 1);
     }
 
-    public void inFeeder1() {
-        pollyIntakeMotor.set(ControlMode.PercentOutput, -pollyIntakeSpeedFeeder);
+    /**
+     * for when taking a note from the feeder
+     */
+    public void inFeeder() {
+        pollyIntakeMotor.set(ControlMode.PercentOutput, -pollyIntakeSpeedFeederIn);
     }
 
 
-
+    /**
+     * for if we want to implement amp and want to take out from the feeder nicely
+     */
     public void outFeeder() {
-        pollyIntakeMotor.set(ControlMode.PercentOutput, -pollyIntakeSpeedFeeder);
+        pollyIntakeMotor.set(ControlMode.PercentOutput, pollyIntakeSpeedFeederOut);
     }
 
+    /**
+     * before throwing to speeker - moves the note away from the flywheel
+     */
     public void backALittle() {
-        pollyIntakeMotor.set(ControlMode.PercentOutput, -1);
+        pollyIntakeMotor.set(ControlMode.PercentOutput, -pollyIntakeSpeedBack);
     }
 
+    /**
+     * stops motor
+     */
     public void stop() {
         pollyIntakeMotor.set(ControlMode.PercentOutput, 0);
     }
 
 
+    public void slowUpOut() {
+        pollyIntakeMotor.set(ControlMode.PercentOutput, pollyIntakeSlowUpOutSpeed);
 
-
+    }
 }

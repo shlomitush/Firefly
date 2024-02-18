@@ -33,13 +33,21 @@ public final class Constants {
 
     public static final int flyWheelMotorIDFollower = 22;
     public static final double flyWheelMotorSpeedThrow = 1;
-    public static final double flyWheelMotorSpeedIn = -0.8;
+    public static final double flyWheelMotorSpeedFeederIn = 0.8;
+
+    public static final double flyWheelSlowUpOutSpeed = 0.3;
+
+    public static final double flyWheelMotorSpeedAMP = 0.6;
+
+
 
   }
 
   public static class FloorIntake {
     public static final int floorIntakeMotorID = 31;
     public static final int floorIntakeSpeed = 1;
+    public static final double floorIntakeSlowUpOutSpeed = 0.3;
+
   }
 
   public static class Climb {
@@ -49,9 +57,15 @@ public final class Constants {
 
   public static class PollyIntake {
     public static final int pollyIntakeMotorID = 32;
-    public static final double pollyIntakeSpeedFloor = 0.3;
-    public static final double pollyIntakeSpeedFeeder = 0.7;
+
+    public static final double pollyIntakeSpeedFloorIn = 0.3;
+    public static final double pollyIntakeSpeedFeederIn = 0.7;
+    public static final double pollyIntakeSpeedFeederOut = 0.4;
+
     public static final double pollyIntakeSpeedBack = 0.3;
+
+    public static final double pollyIntakeSlowUpOutSpeed = 0.3;
+
 
   }
 
