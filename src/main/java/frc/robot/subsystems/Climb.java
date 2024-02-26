@@ -9,16 +9,25 @@ import static frc.robot.Constants.FloorIntake.floorIntakeSpeed;
 
 
 public class Climb extends SubsystemBase {
-    private final TalonSRX climbMotor = new TalonSRX(climbMotorID);
+    private final TalonSRX climbMotorLeader = new TalonSRX(climbMotorRightID);
+//private final TalonSRX climbMotorLeader = new TalonSRX(climbMotorLeftID);
+
+    private final TalonSRX climbMotorFollower = new TalonSRX(climbMotorLeftID);
+
+    public Climb() {
+//        climbMotorLeader.setI
+        climbMotorFollower.follow(climbMotorLeader);
+
+    }
 
     public void upClimb(){
-        climbMotor.set(TalonSRXControlMode.Current, climbMotorSpeed);
+        climbMotorLeader.set(TalonSRXControlMode.PercentOutput, climbMotorSpeedUp);
     }
     public void stopClimb() {
-        climbMotor.set(TalonSRXControlMode.Current, 0);
+        climbMotorLeader.set(TalonSRXControlMode.PercentOutput, 0);
     }
     public void downClimb(){
-        climbMotor.set(TalonSRXControlMode.Current, -climbMotorSpeed);
+        climbMotorLeader.set(TalonSRXControlMode.PercentOutput, -climbMotorSpeedDown);
     }
 
 

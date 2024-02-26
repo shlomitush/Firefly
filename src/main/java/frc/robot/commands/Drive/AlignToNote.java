@@ -22,6 +22,7 @@ public class AlignToNote extends Command {
 
 
 
+
     public AlignToNote(DriveTrain drive) {
         this.drive = drive;
         addRequirements(drive);
@@ -33,6 +34,8 @@ public class AlignToNote extends Command {
 
     @Override
     public void initialize() {
+
+        
         pidController.reset(LimelightHelpers.getTX(name));
     }
 

@@ -45,7 +45,7 @@ public class DriveTrain extends SubsystemBase {
     private final RelativeEncoder rightEncoder = rightLeader.getEncoder(SparkRelativeEncoder.Type.kQuadrature,360);
 
 
-    private final RelativeEncoder leftEncoder = leftLeader.getEncoder(SparkRelativeEncoder.Type.kQuadrature,360);
+    private final RelativeEncoder leftEncoder = leftFollower.getEncoder(SparkRelativeEncoder.Type.kQuadrature,360);
 
     private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(
             gyro.getRotation2d(),
@@ -58,36 +58,44 @@ public class DriveTrain extends SubsystemBase {
     public DriveTrain(){
 //        leftLeader.restoreFactoryDefaults();
 //        rightLeader.restoreFactoryDefaults();
+        leftFollower.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        leftLeader.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        rightLeader.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        rightFollower.setIdleMode(CANSparkBase.IdleMode.kBrake);
 
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
-        rightLeader.setInverted(true);
-        leftLeader.setInverted(false);
+        rightLeader.setInverted(false);
+        leftLeader.setInverted(true);
+
+        leftEncoder.setInverted(true);
+        rightEncoder.setInverted(false);
+
+        rightEncoder.setPositionConversionFactor(1 / 0.4);
+        leftEncoder.setPositionConversionFactor(1 / 0.4);
 
 
-        leftLeader.setIdleMode(CANSparkBase.IdleMode.kBrake);
-        rightLeader.setIdleMode(CANSparkBase.IdleMode.kBrake);
-
-        leftEncoder.setPositionConversionFactor((1.0 / 42));
-        rightEncoder.setPositionConversionFactor((1.0 / 42));
 
 
-        rightEncoder.setPosition(0);
-        leftEncoder.setPosition(0);
+//        this.resetpos();
 
-        rightLeader.setClosedLoopRampRate(0.5);
-        leftLeader.setClosedLoopRampRate(0.5);
+//        this.gyro.reset();
+        gyro.zeroYaw();
+
+
+
+
 
 
         this.drive.setSafetyEnabled(false);
-        this.drive.feed();
-        this.gyro.reset();
-        this.gyro.zeroYaw();
+//        this.drive.feed();
+
+//        this.gyro.zeroYaw();
     }
 
 
     public void drive(double speed, double rotation) {
-        drive.arcadeDrive(speed, rotation);
+        drive.arcadeDrive(speed, rotation, false);
     }
 
     public void stopDrive() {
@@ -111,6 +119,7 @@ public class DriveTrain extends SubsystemBase {
         SmartDashboard.putNumber("left travel dist", getLeftTravelDistanceMetres());
         SmartDashboard.putNumber("right travel dist", getRightTravelDistanceMetres());
         SmartDashboard.putNumber("left enc pos", leftEncoder.getPosition());
+        SmartDashboard.putNumber("right enc pos", rightEncoder.getPosition());
 
         odometry.update(
                 gyro.getRotation2d(),
@@ -118,6 +127,7 @@ public class DriveTrain extends SubsystemBase {
                 getRightTravelDistanceMetres()
         );
     }
+
 
     public double getRobotAngle(){
         return gyro.getAngle();
@@ -142,7 +152,7 @@ public class DriveTrain extends SubsystemBase {
 
     public void resetpos() {
         leftEncoder.setPosition(0);
-        rightEncoder.setPosition(0);
+//        rightEncoder.setPosition(0);
     }
 
     /**
@@ -150,7 +160,7 @@ public class DriveTrain extends SubsystemBase {
      * encoder reset
      */
     public double getLeftTravelDistanceMetres() {
-        return leftEncoder.getPosition() * Units.inchesToMeters(6) * Math.PI * 10.71 / 2;
+        return leftEncoder.getPosition() * Units.inchesToMeters(6) * Math.PI * 10.71;
     }
 
     /**
@@ -158,31 +168,31 @@ public class DriveTrain extends SubsystemBase {
      * encoder reset
      */
     public double getRightTravelDistanceMetres() {
-        return - rightEncoder.getPosition() * Units.inchesToMeters(6) * Math.PI * 10.71 / 2;
+        return rightEncoder.getPosition() * Units.inchesToMeters(6) * Math.PI * 10.71;
     }
 
     /**
      * @return the total velocity in metres per second the left side of the robot traveled since the
      * last encoder reset
      */
-    public double getLeftTravelVelocityMetresPerSecond() {
-        return leftEncoder.getVelocity() / 60 * Units.inchesToMeters(6) * Math.PI * 10.71 / 2;
-    }
+//    public double getLeftTravelVelocityMetresPerSecond() {
+//        return leftEncoder.getVelocity() / 60 * Units.inchesToMeters(6) * Math.PI;
+//    }
 
     /**
      * @return the total velocity in metres per second the right side of the robot traveled since the
      * last encoder reset
      */
-    public double getRightTravelVelocityMetresPerSecond() {
-        return - rightEncoder.getVelocity() / 60 * Units.inchesToMeters(6) * Math.PI * 10.71 / 2;
-    }
+//    public double getRightTravelVelocityMetresPerSecond() {
+//        return - rightEncoder.getVelocity() / 60 * Units.inchesToMeters(6) * Math.PI;
+//    }
 
-    /**
-     * @return the speed in each side represented by differential drive
-     */
-    public DifferentialDriveWheelSpeeds getSpeeds() {
-        return new DifferentialDriveWheelSpeeds(getLeftTravelVelocityMetresPerSecond(), getRightTravelVelocityMetresPerSecond());
-    }
+//    /**
+//     * @return the speed in each side represented by differential drive
+//     */
+//    public DifferentialDriveWheelSpeeds getSpeeds() {
+//        return new DifferentialDriveWheelSpeeds(getLeftTravelVelocityMetresPerSecond(), getRightTravelVelocityMetresPerSecond());
+//    }
 
     /**
      * Set the speed of the motors according to the voltage
@@ -211,5 +221,15 @@ public class DriveTrain extends SubsystemBase {
 
     public AHRS getGyro() {
         return gyro;
+    }
+
+    public double getRightPosition() {
+        return rightEncoder.getPosition();
+    }
+
+    public void startGyro() {
+//        this.gyro.reset();
+        this.gyro.zeroYaw();
+//        this.gyro.setAngleAdjustment();
     }
 }

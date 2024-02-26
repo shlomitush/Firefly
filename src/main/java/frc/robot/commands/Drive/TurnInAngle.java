@@ -5,35 +5,39 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.DriveTrain;
 
-public class TurnToAngle extends Command {
+public class TurnInAngle extends Command {
 
-    private double setPoint;
+    private double setPoint1, setPoint2;
     private DriveTrain driveTrain;
     private PIDController pidController = new PIDController(0.003, 0, 0);
-    public Trigger isAtSetPoint = new Trigger(()->Math.abs(pidController.getPositionError() - 180) <= pidController.getPositionTolerance());
+    public Trigger isAtSetPoint = new Trigger(()->Math.abs(pidController.getPositionError()) <= pidController.getPositionTolerance());
 
 
-    public TurnToAngle(DriveTrain driveTrain, double setPoint) {
+    public TurnInAngle(DriveTrain driveTrain, double setPoint) {
         this.driveTrain = driveTrain;
-        this.setPoint = setPoint;
+        this.setPoint1 = setPoint;
 
         addRequirements(driveTrain);
 
-        pidController.enableContinuousInput(-180, 180);
+//        pidController.enableContinuousInput(-180, 180);
 //        pidController.enableContinuousInput(0, 360);
 
-        pidController.setTolerance(7);
-        pidController.setSetpoint(this.setPoint);
+        pidController.setTolerance(10);
+    }
+
+    @Override
+    public void initialize() {
+        this.setPoint2 = setPoint1 + driveTrain.getYaw();
+        pidController.setSetpoint(this.setPoint2);
+        pidController.reset();
     }
 
     @Override
     public void execute() {
-        double rotation = this.pidController.calculate(driveTrain.getRobotAngle(), this.setPoint);
+        double rotation = this.pidController.calculate(driveTrain.getRobotAngle(), this.setPoint2);
         System.out.println("in execute, rotating at speed: " + rotation);
-//        System.out.println("in execute, rotating at speed: " + rotation);
 
         driveTrain.drive(0, rotation);
-//        driveTrain.drive(0, rotation);
 
         System.out.println(pidController.getPositionError());
     }

@@ -15,7 +15,10 @@ package frc.robot;
 public final class Constants {
 
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int kDriverControllerPort1 = 0;
+    public static final int kDriverControllerPort2 = 1;
+
+
   }
 
   public static class driveTrain{
@@ -32,7 +35,7 @@ public final class Constants {
     public static final int flyWheelMotorIDLeader = 21;
 
     public static final int flyWheelMotorIDFollower = 22;
-    public static final double flyWheelMotorSpeedThrow = 1;
+    public static final double flyWheelMotorSpeedThrow = 0.8;
     public static final double flyWheelMotorSpeedFeederIn = 0.8;
 
     public static final double flyWheelSlowUpOutSpeed = 0.3;
@@ -51,8 +54,12 @@ public final class Constants {
   }
 
   public static class Climb {
-    public static final int climbMotorID = 41;
-    public static final double climbMotorSpeed = 0.5;
+    public static final int climbMotorLeftID = 42;
+    public static final int climbMotorRightID = 41;
+
+    public static final double climbMotorSpeedUp = 0.35;
+    public static final double climbMotorSpeedDown = 0.7;
+
   }
 
   public static class PollyIntake {

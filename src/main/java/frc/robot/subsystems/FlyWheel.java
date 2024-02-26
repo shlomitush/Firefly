@@ -9,11 +9,13 @@ import static frc.robot.Constants.FlyWheel.*;
 
 public class FlyWheel extends SubsystemBase {
     private final CANSparkMax flyWheelMotorLeader = new CANSparkMax(flyWheelMotorIDLeader,
-            CANSparkLowLevel.MotorType.kBrushed);
+            CANSparkLowLevel.MotorType.kBrushless);
 
-    private final CANSparkMax flyWheelMotorFollower = new CANSparkMax(flyWheelMotorIDFollower, CANSparkLowLevel.MotorType.kBrushed);
+    private final CANSparkMax flyWheelMotorFollower = new CANSparkMax(flyWheelMotorIDFollower,
+            CANSparkLowLevel.MotorType.kBrushless);
 
     public FlyWheel(){
+
     }
 
 
