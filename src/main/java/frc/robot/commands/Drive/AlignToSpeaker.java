@@ -7,28 +7,29 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
+import frc.robot.RoundInfo;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.utilities.LimelightHelpers;
 
-public class AlignToNote extends Command {
-
-//    private final ProfiledPIDController profiledPIDController = new ProfiledPIDController(0.3, 0, 0,
-//            new TrapezoidProfile.Constraints(1, 0.2));
+public class AlignToSpeaker extends Command {
     private final ProfiledPIDController pidController = new ProfiledPIDController(0.03, 0, 0,
-        new TrapezoidProfile.Constraints(100, 60));
+            new TrapezoidProfile.Constraints(100, 60));
     private final DriveTrain drive;
-    private final String name = "limelight-limlima";
+    private final String name = "limelight-limlimb";
+    private int pipe;
 
 
 
 
 
-    public AlignToNote(DriveTrain drive) {
+    public AlignToSpeaker(DriveTrain drive, RoundInfo roundInfo) {
         this.drive = drive;
         addRequirements(drive);
 
         pidController.setTolerance(3, 200);
+        this.pipe = roundInfo.getAprilTagLimPipe();
 
+        LimelightHelpers.setPipelineIndex(name, this.pipe);
 
     }
 
@@ -43,7 +44,7 @@ public class AlignToNote extends Command {
         double pixel = LimelightHelpers.getTX(name);
 
 
-        SmartDashboard.putNumber("pixel", pixel);
+        SmartDashboard.putNumber("pixle", pixel);
         SmartDashboard.putBoolean("hasTarget", hasTarget);
 
         if (!hasTarget) {

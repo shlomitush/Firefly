@@ -19,6 +19,7 @@ import frc.robot.subsystems.*;
 //hey
 public class RobotContainer {
   private final Robot robot = new Robot();
+  private RoundInfo roundInfo = new RoundInfo(robot);
 
 
   //  private final Intake m_intake = new Intake();
