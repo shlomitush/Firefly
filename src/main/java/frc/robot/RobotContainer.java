@@ -14,12 +14,27 @@ import frc.robot.commands.ThrowWheel.BackALittle;
 import frc.robot.commands.ThrowWheel.StopThrow;
 import frc.robot.commands.ThrowWheel.Throw;
 import frc.robot.commands.ThrowWheel.ThrowAMP;
+import frc.robot.enums.LimeLightState;
 import frc.robot.subsystems.*;
 
 //hey
 public class RobotContainer {
-  private final Robot robot = new Robot();
-  private RoundInfo roundInfo = new RoundInfo(robot);
+  private boolean limlim;
+
+  public RobotContainer(boolean limlim) {
+    this.limlim = limlim;
+  }
+
+  public void setLimlim(LimeLightState limeLightState) {
+    switch (limeLightState){
+      case NO:
+        this.limlim = false;
+      case YES:
+        this.limlim = true;
+    }
+  }
+//  private final Robot robot = new Robot();
+//  private RoundInfo roundInfo = new RoundInfo(robot.getAlliance());
 
 
   //  private final Intake m_intake = new Intake();
@@ -34,9 +49,6 @@ public class RobotContainer {
   private final FloorIntake floorIntake = new FloorIntake();
   private final Climb climb = new Climb();
   private final PollyIntake pollyIntake = new PollyIntake();
-
-//  private final driveTrainCommand m_driveTrainCommand = new driveTrainCommand(m_driveTrain, m_driverController::getLeftY, ()-> -m_driverController.getRawAxis(2));
-//  private final IntakeCommand m_intakeCommand = new IntakeCommand(m_Floor_intake);
 
 
   // commands
@@ -58,8 +70,8 @@ public class RobotContainer {
   private final DriveXCentim driveXCentim = new DriveXCentim(m_driveTrain, 10);
 
 
-  private final Command completeThrow = backALittle.withTimeout(1.8).andThen(aThrow).withTimeout(2);
-  private final Command autoNote = alignToNote.repeatedly().withTimeout(1).andThen(driveToNote);
+  private final Command completeThrow = new BackALittle(pollyIntake, flyWheel).withTimeout(1.8).andThen(new Throw(pollyIntake, flyWheel)).withTimeout(2);
+  private final Command autoNote = new AlignToNote(m_driveTrain).repeatedly().withTimeout(1).andThen(new DriveToNote(m_driveTrain, floorIntake));
 
 
   public RobotContainer() {
@@ -101,7 +113,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 
-//    return Autos.exampleAuto(m_exampleSubsystem);
     return new BackALittle(pollyIntake, flyWheel).withTimeout(1.0)
             .andThen(new Throw(pollyIntake, flyWheel).withTimeout(2.5),
                     new DriveXCentim(m_driveTrain ,-50),
@@ -120,7 +131,6 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommandCenter() {
-    boolean limlim = robot.getLimLimForeNote();
     return completeThrow
             .andThen(new DriveXCentim(m_driveTrain ,-50),
                     limlim ? autoNote :
@@ -131,8 +141,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommandLeft() {
-    boolean limlim = robot.getLimLimForeNote();
-
     return new TurnInAngle(m_driveTrain, 70)
             .andThen(completeThrow,
                     new TurnInAngle(m_driveTrain, -70),
@@ -145,8 +153,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommandRight() {
-    boolean limlim = robot.getLimLimForeNote();
-
     return new TurnInAngle(m_driveTrain, -70)
             .andThen(completeThrow,
                     new TurnInAngle(m_driveTrain, 70),

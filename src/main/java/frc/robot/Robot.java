@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import enums.AutonomousCommand;
-import enums.Alliance;
-import enums.LimeLightState;
+import frc.robot.enums.AutonomousCommand;
+import frc.robot.enums.Alliance;
+import frc.robot.enums.LimeLightState;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -23,7 +23,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  private final SendableChooser<Alliance> allianceChooser = new SendableChooser<>();
+  private final SendableChooser<Alliance> allianceChooser = new SendableChooser<>(); //there is a command for that we
+  // do not have to choose
   private final SendableChooser<AutonomousCommand> autoCommandChooser = new SendableChooser<>();
   private final SendableChooser<LimeLightState> limlimStateChooser = new SendableChooser<LimeLightState>();
 
@@ -36,7 +37,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    m_robotContainer = new RobotContainer(false);
 
     allianceChooser.setDefaultOption("Red", Alliance.RED);
     allianceChooser.addOption("Blue", Alliance.BLUE);
@@ -79,7 +80,9 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    m_robotContainer.setLimlim(limlimStateChooser.getSelected());
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
 
     Alliance selectedAlliance = allianceChooser.getSelected();
     AutonomousCommand selectedCommand = autoCommandChooser.getSelected();
@@ -95,6 +98,7 @@ public class Robot extends TimedRobot {
         m_autonomousCommand = m_robotContainer.getAutonomousCommandRight();
         break;
     }
+
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -140,6 +144,7 @@ public class Robot extends TimedRobot {
   public void simulationPeriodic() {}
 
   public Alliance getAlliance() {
+//    return Alliance.RED;
     return allianceChooser.getSelected();
   }
 
