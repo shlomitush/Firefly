@@ -63,6 +63,11 @@ public class DriveTrain extends SubsystemBase {
         rightLeader.setIdleMode(CANSparkBase.IdleMode.kBrake);
         rightFollower.setIdleMode(CANSparkBase.IdleMode.kBrake);
 
+        leftLeader.setSmartCurrentLimit(60);
+        leftFollower.setSmartCurrentLimit(60);
+        rightLeader.setSmartCurrentLimit(60);
+        rightFollower.setSmartCurrentLimit(60);
+
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
         rightLeader.setInverted(false);

@@ -9,7 +9,7 @@ public class TurnInAngle extends Command {
 
     private double setPoint1, setPoint2;
     private DriveTrain driveTrain;
-    private PIDController pidController = new PIDController(0.003, 0, 0);
+    private PIDController pidController = new PIDController(0.04, 0, 0.0001);
     public Trigger isAtSetPoint = new Trigger(()->Math.abs(pidController.getPositionError()) <= pidController.getPositionTolerance());
 
 
@@ -51,6 +51,61 @@ public class TurnInAngle extends Command {
     public boolean isFinished() {
         System.out.println("in is finished error is: " + pidController.getPositionError());
         System.out.println(isAtSetPoint.getAsBoolean());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //        System.out.println("current position tolerance: " + pidController.getPositionTolerance());
 //        System.out.println("current gyro" + pidController.get);
 //        System.out.println("set point: " + pidController.getSetpoint());
@@ -59,6 +114,6 @@ public class TurnInAngle extends Command {
 //        return error < 10;
 //        return isAtSetPoint.getAsBoolean();
 
-        return this.isAtSetPoint.getAsBoolean();
+           return this.isAtSetPoint.getAsBoolean();
     }
 }

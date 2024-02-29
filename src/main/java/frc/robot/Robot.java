@@ -4,14 +4,19 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.enums.AutonomousCommand;
-import frc.robot.enums.Alliance;
+import frc.robot.enums.Alliancee;
 import frc.robot.enums.LimeLightState;
+
+import java.util.Optional;
+
+import static edu.wpi.first.wpilibj.DriverStation.Alliance.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -23,7 +28,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  private final SendableChooser<Alliance> allianceChooser = new SendableChooser<>(); //there is a command for that we
+  private final SendableChooser<Alliancee> allianceChooser = new SendableChooser<>(); //there is a command for that we
   // do not have to choose
   private final SendableChooser<AutonomousCommand> autoCommandChooser = new SendableChooser<>();
   private final SendableChooser<LimeLightState> limlimStateChooser = new SendableChooser<LimeLightState>();
@@ -39,13 +44,18 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer(false);
 
-    allianceChooser.setDefaultOption("Red", Alliance.RED);
-    allianceChooser.addOption("Blue", Alliance.BLUE);
+    allianceChooser.setDefaultOption("Red", Alliancee.RED);
+    allianceChooser.addOption("Blue", Alliancee.BLUE);
     SmartDashboard.putData("Alliance Color", allianceChooser);
 
     autoCommandChooser.setDefaultOption("Center", AutonomousCommand.CENTER);
     autoCommandChooser.addOption("Left", AutonomousCommand.LEFT);
     autoCommandChooser.addOption("Right", AutonomousCommand.RIGHT);
+    autoCommandChooser.addOption("OUT", AutonomousCommand.OUT);
+    autoCommandChooser.addOption("SIDE_OUT", AutonomousCommand.SIDE_OUT);
+
+
+
     SmartDashboard.putData("Autonomous Command", autoCommandChooser);
 
 
@@ -84,21 +94,36 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 
-    Alliance selectedAlliance = allianceChooser.getSelected();
+    Alliancee selectedAlliance = allianceChooser.getSelected();
     AutonomousCommand selectedCommand = autoCommandChooser.getSelected();
 
     switch (selectedCommand) {
+      // center
       case CENTER:
         m_autonomousCommand = m_robotContainer.getAutonomousCommandCenter();
         break;
-      case LEFT:
+      case LEFT: // left
         m_autonomousCommand = m_robotContainer.getAutonomousCommandLeft();
         break;
       case RIGHT:
         m_autonomousCommand = m_robotContainer.getAutonomousCommandRight();
         break;
+      case OUT:
+        m_autonomousCommand = m_robotContainer.getAutonomousCommandOUT();
+        break;
+      case SIDE_OUT:
+        Optional<DriverStation.Alliance> alliancee = DriverStation.getAlliance();
+        if (alliancee.isPresent()) {
+          if (alliancee.equals(Blue)) {
+            m_autonomousCommand = m_robotContainer.getAutonomousCommandOUTSideBlue();
+          } else if (alliancee.equals(Red)) {
+            m_autonomousCommand = m_robotContainer.getAutonomousCommandOUTSideRed();
+          }
+        } else {
+          m_autonomousCommand = m_robotContainer.getAutonomousCommandOUTSideRed();
+        }
+        break;
     }
-
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -118,6 +143,7 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+
     }
   }
 
@@ -143,7 +169,7 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {}
 
-  public Alliance getAlliance() {
+  public Alliancee getAlliance() {
 //    return Alliance.RED;
     return allianceChooser.getSelected();
   }

@@ -17,12 +17,15 @@ import frc.robot.commands.ThrowWheel.ThrowAMP;
 import frc.robot.enums.LimeLightState;
 import frc.robot.subsystems.*;
 
+import java.util.function.DoubleSupplier;
+
 //hey
 public class RobotContainer {
   private boolean limlim;
 
   public RobotContainer(boolean limlim) {
     this.limlim = limlim;
+    configureBindings();
   }
 
   public void setLimlim(LimeLightState limeLightState) {
@@ -53,7 +56,7 @@ public class RobotContainer {
 
   // commands
   private final DriveTrainCommand m_driveTrainCommand = new DriveTrainCommand(m_driveTrain, driverController1::getLeftY, ()->
-          driverController1.getRawAxis(4));
+          driverController1.getRawAxis(4), driverController1.leftBumper());
   private final ClimbUpCommand climbUpCommand = new ClimbUpCommand(climb);
   private final ClimbDownCommand climbDownCommand = new ClimbDownCommand(climb);
   private final FeederIn feederIn = new FeederIn(pollyIntake, flyWheel);
@@ -65,19 +68,14 @@ public class RobotContainer {
   private final SlowUpOut slowUpOut = new SlowUpOut(pollyIntake, flyWheel, floorIntake);
   private final StopThrow stopThrow = new StopThrow(pollyIntake, flyWheel);
   private final AlignToNote alignToNote = new AlignToNote(m_driveTrain);
-  private final DriveToNote driveToNote = new DriveToNote(m_driveTrain, floorIntake);
+  private final DriveToNote driveToNote = new DriveToNote(m_driveTrain, floorIntake, pollyIntake);
   private final ThrowAMP throwAMP = new ThrowAMP(pollyIntake, flyWheel);
-  private final DriveXCentim driveXCentim = new DriveXCentim(m_driveTrain, 10);
 
 
-  private final Command completeThrow = new BackALittle(pollyIntake, flyWheel).withTimeout(1.8).andThen(new Throw(pollyIntake, flyWheel)).withTimeout(2);
-  private final Command autoNote = new AlignToNote(m_driveTrain).repeatedly().withTimeout(1).andThen(new DriveToNote(m_driveTrain, floorIntake));
-
-
-  public RobotContainer() {
-    configureBindings();
-//    SmartDashboard.putData(m_driveTrainCommand);
-  }
+//  public RobotContainer() {
+//    configureBindings();
+////    SmartDashboard.putData(m_driveTrainCommand);
+//  }
 
 
   private void configureBindings() {
@@ -85,12 +83,12 @@ public class RobotContainer {
     driverController1.rightBumper().whileTrue(floorIn);
     driverController1.povUp().whileTrue(upOut);
     driverController1.povDown().whileTrue(downOut);
-    driverController1.a().onTrue(new TurnInAngle(m_driveTrain, 180));
+//    driverController1.a().onTrue(new TurnInAngle(m_driveTrain, 180).withTimeout(0.4));
     driverController1.rightTrigger().whileTrue(climbUpCommand);
     driverController1.leftTrigger().whileTrue(climbDownCommand);
 
     // controller 2 - buttons
-    driverController2.rightBumper().whileTrue(backALittle.withTimeout(1.8).andThen(aThrow));
+    driverController2.rightBumper().whileTrue(completeThrow());
     driverController2.rightBumper().onFalse(stopThrow);
     driverController2.x().whileTrue(feederIn);
     driverController2.b().whileTrue(throwAMP);
@@ -98,7 +96,7 @@ public class RobotContainer {
     driverController2.povDown().whileTrue(downOut);
     driverController2.rightTrigger().whileTrue(climbUpCommand);
     driverController2.leftTrigger().whileTrue(climbDownCommand);
-    driverController2.a().whileTrue(alignToNote.repeatedly().withTimeout(1).andThen(driveToNote));
+    driverController2.a().whileTrue(autoNote());
 
 
     m_driveTrain.setDefaultCommand(m_driveTrainCommand);
@@ -115,9 +113,9 @@ public class RobotContainer {
 
     return new BackALittle(pollyIntake, flyWheel).withTimeout(1.0)
             .andThen(new Throw(pollyIntake, flyWheel).withTimeout(2.5),
-                    new DriveXCentim(m_driveTrain ,-50),
+                    new DriveXCentim(m_driveTrain,floorIntake, pollyIntake, -50).withTimeout(5),
                     new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2),
-                    new DriveXCentim(m_driveTrain, 250), backALittle.withTimeout(2.0),
+                    new DriveXCentim(m_driveTrain, floorIntake,pollyIntake, 250),
                     new WaitCommand(0.5),
                     new BackALittle(pollyIntake, flyWheel).withTimeout(2.0),
                     new Throw(pollyIntake, flyWheel).withTimeout(3.0));
@@ -131,36 +129,90 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommandCenter() {
-    return completeThrow
-            .andThen(new DriveXCentim(m_driveTrain ,-50),
-                    limlim ? autoNote :
-                            new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2),
-                    new DriveXCentim(m_driveTrain, 250), backALittle.withTimeout(2.0),
-                    new WaitCommand(0.5),
-                    completeThrow);
+    return completeThrow()
+            .andThen(new DriveXCentim(m_driveTrain , floorIntake, pollyIntake, -155).withTimeout(5),
+                    limlim ? autoNote() :
+                            new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -50).withTimeout(5),
+                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 215).withTimeout(5),
+//                    new WaitCommand(0.2),
+                    completeThrow());
   }
 
   public Command getAutonomousCommandLeft() {
-    return new TurnInAngle(m_driveTrain, 70)
-            .andThen(completeThrow,
+    return completeThrow()
+            .andThen(new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -20).withTimeout(5),
                     new TurnInAngle(m_driveTrain, -70),
-                    new DriveXCentim(m_driveTrain ,-50),
-                    limlim ? autoNote :
-                            new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2),
-                    new DriveXCentim(m_driveTrain, 300), backALittle.withTimeout(2.0), // לבדוק כמה בדיוק - זה קריטי
+                    new DriveXCentim(m_driveTrain , floorIntake, pollyIntake, -160).withTimeout(5),
+                    limlim ? autoNote() :
+                            new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2).withTimeout(5),
+                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 210).withTimeout(5),
                     new TurnInAngle(m_driveTrain, 70),
-                    completeThrow);
+                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 25).withTimeout(5),
+                    completeThrow());
+//    return new TurnInAngle(m_driveTrain, 70)
+//            .andThen(completeThrow,
+//                    new TurnInAngle(m_driveTrain, -70),
+//                    new DriveXCentim(m_driveTrain , floorIntake, pollyIntake, -50),
+//                    limlim ? autoNote() :
+//                            new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2),
+//                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 300), backALittle.withTimeout(2.0), //
+//                    // לבדוק כמה בדיוק
+//                    // - זה קריטי
+//                    new TurnInAngle(m_driveTrain, 70),
+//                    completeThrow);
   }
 
   public Command getAutonomousCommandRight() {
-    return new TurnInAngle(m_driveTrain, -70)
-            .andThen(completeThrow,
-                    new TurnInAngle(m_driveTrain, 70),
-                    new DriveXCentim(m_driveTrain, -50),
-                    limlim ? autoNote :
-                            new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2),
-                    new DriveXCentim(m_driveTrain, 300), backALittle.withTimeout(2.0), // לבדוק כמה בדיוק - זה קריטי
-                    new TurnInAngle(m_driveTrain, -70),
-                    completeThrow);
+    return completeThrow()
+            .andThen(new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -20).withTimeout(5),
+                    new TurnInAngle(m_driveTrain, 70).withTimeout(5),
+                    new DriveXCentim(m_driveTrain , floorIntake, pollyIntake, -160).withTimeout(5),
+                    limlim ? autoNote() :
+                            new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2).withTimeout(5),
+                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 210).withTimeout(5),
+                    new TurnInAngle(m_driveTrain, -70).withTimeout(5),
+                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 25).withTimeout(5),
+                    completeThrow());
+//    return new TurnInAngle(m_driveTrain, -70)
+//            .andThen(completeThrow,
+//                    new TurnInAngle(m_driveTrain, 70),
+//                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -50),
+//                    limlim ? autoNote() :
+//                            new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2),
+//                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 300), backALittle.withTimeout(2.0), //
+//                    // לבדוק כמה
+//                    // בדיוק - זה קריטי
+//                    new TurnInAngle(m_driveTrain, -70),
+//                    completeThrow);
     }
+
+  public Command getAutonomousCommandOUT() {
+    return completeThrow().withTimeout(2)
+            .andThen(new DriveTrainCommand(m_driveTrain, ()-> 0.8, ()-> 0, ()->false).withTimeout(1.6));
+//                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -400).withTimeout(15));
+  }
+
+  public Command getAutonomousCommandOUTSideBlue() {
+    return completeThrow()
+            .andThen(new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -150).withTimeout(5),
+                    new TurnInAngle(m_driveTrain, 70).withTimeout(5).withTimeout(5),
+                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 200).withTimeout(5)
+            );
+  }
+
+  public Command getAutonomousCommandOUTSideRed() {
+    return completeThrow()
+            .andThen(new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -150).withTimeout(5),
+                    new TurnInAngle(m_driveTrain, -70).withTimeout(5).withTimeout(5),
+                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 200).withTimeout(5)
+            );
+  }
+
+public Command completeThrow(){
+    return new BackALittle(pollyIntake, flyWheel).withTimeout(0.7).andThen(new Throw(pollyIntake, flyWheel)).withTimeout(2);
+}
+public Command autoNote() {
+  return new AlignToNote(m_driveTrain).repeatedly().withTimeout(1.5).andThen(new DriveXCentim(m_driveTrain, floorIntake
+          ,pollyIntake, -50).withTimeout(2.5));
+}
 }

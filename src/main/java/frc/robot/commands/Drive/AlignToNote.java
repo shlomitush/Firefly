@@ -14,10 +14,10 @@ public class AlignToNote extends Command {
 
 //    private final ProfiledPIDController profiledPIDController = new ProfiledPIDController(0.3, 0, 0,
 //            new TrapezoidProfile.Constraints(1, 0.2));
-    private final ProfiledPIDController pidController = new ProfiledPIDController(0.03, 0, 0,
+    private final ProfiledPIDController pidController = new ProfiledPIDController(0.04, 0, 0.0001,
         new TrapezoidProfile.Constraints(100, 60));
     private final DriveTrain drive;
-    private final String name = "limelight-limlima";
+    private final String name = "limelight-limlimb";
 
 
 
@@ -50,8 +50,8 @@ public class AlignToNote extends Command {
             this.drive.stopDrive();
         }else {
             var output = pidController.calculate(pixel);
-            this.drive.drive(0, output);
-            SmartDashboard.putNumber("speed", output);
+            this.drive.drive(0, -output);
+            SmartDashboard.putNumber("speed", -output);
             SmartDashboard.putNumber("time", Timer.getFPGATimestamp());
             SmartDashboard.putNumber("setpoint", pidController.getSetpoint().position);
         }

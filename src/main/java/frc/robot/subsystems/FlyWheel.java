@@ -23,13 +23,13 @@ public class FlyWheel extends SubsystemBase {
      * starts flywheel motor at the appropriate speed for throwing to the speaker
      */
     public void throwWheel() {
-        flyWheelMotorLeader.set(-flyWheelMotorSpeedThrow);
-        flyWheelMotorFollower.set(-flyWheelMotorSpeedThrow);
+        flyWheelMotorLeader.set(flyWheelMotorSpeedThrow);
+        flyWheelMotorFollower.set(flyWheelMotorSpeedThrow);
     }
 
     public void throwAMP() {
-        flyWheelMotorLeader.set(-flyWheelMotorSpeedAMP);
-        flyWheelMotorFollower.set(-flyWheelMotorSpeedAMP);
+        flyWheelMotorLeader.set(flyWheelMotorSpeedAMP);
+        flyWheelMotorFollower.set(flyWheelMotorSpeedAMP);
     }
 
 
@@ -37,23 +37,23 @@ public class FlyWheel extends SubsystemBase {
      * for when throwing out up
      */
     public void upOut() {
-        flyWheelMotorLeader.set(-1);
-        flyWheelMotorFollower.set(-1);
+        flyWheelMotorLeader.set(1);
+        flyWheelMotorFollower.set(1);
     }
     /**
      * for when throwing out to the floor
      */
     public void downOut() {
-        flyWheelMotorLeader.set(1);
-        flyWheelMotorFollower.set(1);
+        flyWheelMotorLeader.set(-1);
+        flyWheelMotorFollower.set(-1);
     }
 
     /**
      * when taking in a wheel from the feeder
      */
     public void wheelIn() {
-        flyWheelMotorLeader.set(flyWheelMotorSpeedFeederIn);
-        flyWheelMotorFollower.set(flyWheelMotorSpeedFeederIn);
+        flyWheelMotorLeader.set(-flyWheelMotorSpeedFeederIn);
+        flyWheelMotorFollower.set(-flyWheelMotorSpeedFeederIn);
     }
 
     /**
@@ -65,7 +65,7 @@ public class FlyWheel extends SubsystemBase {
     }
 
     public void slowUpOut() {
-        flyWheelMotorLeader.set(-flyWheelSlowUpOutSpeed);
-        flyWheelMotorLeader.set(-flyWheelSlowUpOutSpeed);
+        flyWheelMotorLeader.set(flyWheelSlowUpOutSpeed);
+        flyWheelMotorLeader.set(flyWheelSlowUpOutSpeed);
     }
 }

@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkLowLevel;
@@ -17,6 +18,11 @@ public class Climb extends SubsystemBase {
     public Climb() {
 //        climbMotorLeader.setI
         climbMotorFollower.follow(climbMotorLeader);
+
+
+        climbMotorLeader.setNeutralMode(NeutralMode.Brake);
+        climbMotorFollower.setNeutralMode(NeutralMode.Brake);
+
 
     }
 

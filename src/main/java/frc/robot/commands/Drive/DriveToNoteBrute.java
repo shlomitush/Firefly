@@ -18,7 +18,7 @@ public class DriveToNoteBrute extends Command {
         this.drive = drive;
         this.floorIntake = floorIntake;
         this.pollyIntake = pollyIntake;
-        addRequirements(drive, floorIntake);
+        addRequirements(drive, floorIntake, pollyIntake);
     }
 
     @Override

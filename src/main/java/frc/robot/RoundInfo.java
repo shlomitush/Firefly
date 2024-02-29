@@ -1,12 +1,12 @@
 package frc.robot;
 
-import frc.robot.enums.Alliance;
+import frc.robot.enums.Alliancee;
 
 public class RoundInfo {
     public static int aprilTagLimPipe;
 
 
-    public RoundInfo(Alliance alliance) {
+    public RoundInfo(Alliancee alliance) {
         switch (alliance) {
             case RED:
                 aprilTagLimPipe = 4;

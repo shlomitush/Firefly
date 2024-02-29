@@ -1,6 +1,6 @@
 package frc.robot.enums;
 
-public enum Alliance {
+public enum Alliancee {
     BLUE,
     RED
 }
