@@ -68,6 +68,9 @@ public class PollyIntake extends SubsystemBase {
 
     public void slowUpOut() {
         pollyIntakeMotor.set(ControlMode.PercentOutput, pollyIntakeSlowUpOutSpeed);
+    }
 
+    public void throwAMP() {
+        pollyIntakeMotor.set(ControlMode.PercentOutput, pollyIntakeAMPThrow);
     }
 }

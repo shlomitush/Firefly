@@ -63,10 +63,10 @@ public class DriveTrain extends SubsystemBase {
         rightLeader.setIdleMode(CANSparkBase.IdleMode.kBrake);
         rightFollower.setIdleMode(CANSparkBase.IdleMode.kBrake);
 
-        leftLeader.setSmartCurrentLimit(60);
-        leftFollower.setSmartCurrentLimit(60);
-        rightLeader.setSmartCurrentLimit(60);
-        rightFollower.setSmartCurrentLimit(60);
+//        leftLeader.setSmartCurrentLimit(50);
+//        leftFollower.setSmartCurrentLimit(50);
+//        rightLeader.setSmartCurrentLimit(50);
+//        rightFollower.setSmartCurrentLimit(50);
 
         leftFollower.follow(leftLeader);
         rightFollower.follow(rightLeader);
@@ -79,28 +79,18 @@ public class DriveTrain extends SubsystemBase {
         rightEncoder.setPositionConversionFactor(1 / 0.4);
         leftEncoder.setPositionConversionFactor(1 / 0.4);
 
-
-
-
-//        this.resetpos();
-
-//        this.gyro.reset();
         gyro.zeroYaw();
 
-
-
-
-
-
         this.drive.setSafetyEnabled(false);
-//        this.drive.feed();
-
-//        this.gyro.zeroYaw();
     }
 
 
     public void drive(double speed, double rotation) {
         drive.arcadeDrive(speed, rotation, false);
+    }
+
+    public void tankDrive(double leftSpeed, double rightSpeed) {
+        drive.tankDrive(leftSpeed, rightSpeed);
     }
 
     public void stopDrive() {
@@ -237,4 +227,10 @@ public class DriveTrain extends SubsystemBase {
         this.gyro.zeroYaw();
 //        this.gyro.setAngleAdjustment();
     }
+
+    public double getWheelbaseWidth() {
+        return 53;
+    }
+
+
 }

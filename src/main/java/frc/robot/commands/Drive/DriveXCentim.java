@@ -32,7 +32,7 @@ public class DriveXCentim extends Command {
 //        drive.getRightTravelDistanceMetres();
         startDist = drive.getRightTravelDistanceMetres();
         this.targetPosition = this.targetPosition1 + startDist;
-        double speed = targetPosition > startDist ? -0.45 : 0.45;
+        double speed = targetPosition > startDist ? -0.35 : 0.35;
         System.out.println("speed is: " + speed);
         drive.drive(speed, 0);
         System.out.println("the target position is: " + this.targetPosition);

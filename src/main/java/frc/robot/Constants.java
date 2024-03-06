@@ -40,7 +40,7 @@ public final class Constants {
 
     public static final double flyWheelSlowUpOutSpeed = 0.3;
 
-    public static final double flyWheelMotorSpeedAMP = 0.6;
+    public static final double flyWheelMotorSpeedAMP = 0.2;
 
 
 
@@ -57,8 +57,8 @@ public final class Constants {
     public static final int climbMotorLeftID = 42;
     public static final int climbMotorRightID = 41;
 
-    public static final double climbMotorSpeedUp = 0.35;
-    public static final double climbMotorSpeedDown = 0.7;
+    public static final double climbMotorSpeedUp = 0.8;
+    public static final double climbMotorSpeedDown = 0.5;
 
   }
 
@@ -72,6 +72,7 @@ public final class Constants {
     public static final double pollyIntakeSpeedBack = 0.3;
 
     public static final double pollyIntakeSlowUpOutSpeed = 0.3;
+    public static final double pollyIntakeAMPThrow = 1;
 
 
   }

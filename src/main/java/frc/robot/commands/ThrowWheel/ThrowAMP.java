@@ -17,7 +17,7 @@ public class ThrowAMP extends Command {
     @Override
     public void initialize() {
         this.flyWheel.throwAMP();
-        this.pollyIntake.upOut();
+        this.pollyIntake.throwAMP();
     }
 
     @Override
