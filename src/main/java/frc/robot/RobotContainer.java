@@ -5,8 +5,12 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.Climb.ClimbCommand;
 import frc.robot.commands.Climb.ClimbDownCommand;
+//import frc.robot.commands.Climb.ClimbDownRightCommand;
 import frc.robot.commands.Climb.ClimbUpCommand;
+//import frc.robot.commands.Climb.ClimbUpRightCommand;
+//import frc.robot.commands.Climb.ClimbUpRightCommand;
 import frc.robot.commands.Drive.*;
 import frc.robot.commands.Intake.FeederIn;
 import frc.robot.commands.Intake.FloorIn;
@@ -52,14 +56,22 @@ public class RobotContainer {
   private final FloorIntake floorIntake = new FloorIntake();
   private final Climb climb = new Climb();
   private final PollyIntake pollyIntake = new PollyIntake();
+  private final ClimbRight climbRight = new ClimbRight();
+  private final ClimbLeft climbLeft = new ClimbLeft();
 
 
   // commands
   private final DriveTrainCommand m_driveTrainCommand = new DriveTrainCommand(m_driveTrain, driverController1::getLeftY, ()->
           driverController1.getRawAxis(4), driverController1.leftBumper());
-//  private final ClimbUpCommand rightClimbUpCommand = new ClimbUpCommand(climb)
-  private final ClimbUpCommand climbUpCommand = new ClimbUpCommand(climb);
-  private final ClimbDownCommand climbDownCommand = new ClimbDownCommand(climb);
+
+  private final ClimbCommand climbCommand = new ClimbCommand(climbRight, climbLeft,
+          driverController2::getRightY, driverController2::getLeftY);
+//  private final ClimbUpRightCommand climbUpRightCommand = new ClimbUpRightCommand(new ClimbRight(),
+//          driverController2::getRightY);
+
+
+//  private final ClimbUpCommand climbUpCommand = new ClimbUpCommand(climb);
+//  private final ClimbDownCommand climbDownCommand = new ClimbDownCommand(climb);
   private final FeederIn feederIn = new FeederIn(pollyIntake, flyWheel);
   private final FloorIn floorIn = new FloorIn(pollyIntake, floorIntake);
   private final Throw aThrow = new Throw(pollyIntake, flyWheel);
@@ -85,8 +97,8 @@ public class RobotContainer {
     driverController1.povUp().whileTrue(upOut);
     driverController1.povDown().whileTrue(downOut);
 //    driverController1.a().onTrue(new TurnInAngle(m_driveTrain, 180).withTimeout(0.4));
-    driverController1.rightTrigger().whileTrue(climbUpCommand);
-    driverController1.leftTrigger().whileTrue(climbDownCommand.withTimeout(2));
+    driverController1.rightTrigger().whileTrue(new ClimbUpCommand(climb));
+    driverController1.leftTrigger().whileTrue(new ClimbDownCommand(climb).withTimeout(2));
 
     // controller 2 - buttons
     driverController2.rightBumper().whileTrue(completeThrow());
@@ -95,13 +107,17 @@ public class RobotContainer {
     driverController2.b().whileTrue(throwAMP);
     driverController2.povUp().whileTrue(upOut);
     driverController2.povDown().whileTrue(downOut);
-    driverController2.rightTrigger().whileTrue(climbUpCommand);
-    driverController2.leftTrigger().whileTrue(climbDownCommand);
+    driverController2.rightTrigger().whileTrue(new ClimbUpCommand(climb));
+    driverController2.leftTrigger().whileTrue(new ClimbDownCommand(climb));
     driverController2.a().whileTrue(autoNote());
 //    driverController2.y().onTrue(new TurnInAngle(m_driveTrain, 60));
 
 
     m_driveTrain.setDefaultCommand(m_driveTrainCommand);
+    climbLeft.setDefaultCommand(climbCommand);
+    climbRight.setDefaultCommand(climbCommand);
+
+
 
 //    m_driverController.a().whileTrue(alignToNote.withTimeout(1).andThen(driveToNote));
 //    m_driverController.a().onTrue(alignToNote.andThen(driveToNote).withTimeout(2));

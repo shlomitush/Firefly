@@ -12,18 +12,13 @@ import static frc.robot.Constants.FloorIntake.floorIntakeSpeed;
 public class Climb extends SubsystemBase {
     private final TalonSRX climbMotorLeader = new TalonSRX(climbMotorRightID);
 //private final TalonSRX climbMotorLeader = new TalonSRX(climbMotorLeftID);
-
     private final TalonSRX climbMotorFollower = new TalonSRX(climbMotorLeftID);
 
     public Climb() {
 //        climbMotorLeader.setI
         climbMotorFollower.follow(climbMotorLeader);
-
-
         climbMotorLeader.setNeutralMode(NeutralMode.Brake);
         climbMotorFollower.setNeutralMode(NeutralMode.Brake);
-
-
     }
 
     public void upClimb(){
@@ -32,7 +27,7 @@ public class Climb extends SubsystemBase {
     public void stopClimb() {
         climbMotorLeader.set(TalonSRXControlMode.PercentOutput, 0);
     }
-    public void downClimb(){
+    public void downClimb() {
         climbMotorLeader.set(TalonSRXControlMode.PercentOutput, -climbMotorSpeedDown);
     }
 
