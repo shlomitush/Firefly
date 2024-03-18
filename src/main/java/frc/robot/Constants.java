@@ -48,7 +48,7 @@ public final class Constants {
 
   public static class FloorIntake {
     public static final int floorIntakeMotorID = 31;
-    public static final int floorIntakeSpeed = 1;
+    public static final double floorIntakeSpeed = 0.6;
     public static final double floorIntakeSlowUpOutSpeed = 0.3;
 
   }
@@ -57,7 +57,7 @@ public final class Constants {
     public static final int climbMotorLeftID = 42;
     public static final int climbMotorRightID = 41;
     public static final int climbLeftLimitSwitchID = 1;
-    public static final int climbRightLimitSwitchID = 2;
+    public static final int climbRightLimitSwitchID = 0;
 
     public static final double climbMotorSpeedUp = 0.8;
     public static final double climbMotorSpeedDown = 0.5;
@@ -66,7 +66,7 @@ public final class Constants {
 
   public static class PollyIntake {
     public static final int pollyIntakeMotorID = 32;
-    public static final int pollyIntakeBeamBreakID = 3;
+    public static final int pollyIntakeBeamBreakID = 2;
 
     public static final double pollyIntakeSpeedFloorIn = 0.3;
     public static final double pollyIntakeSpeedFeederIn = 0.7;

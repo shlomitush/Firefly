@@ -78,7 +78,7 @@ public class PollyIntake extends SubsystemBase {
     }
 
     public boolean noteIn() {
-        return pollyIntakeBeamBreaker.get();
+        return !pollyIntakeBeamBreaker.get();
     }
 
 

@@ -16,7 +16,7 @@ public class AlignToNote extends Command {
 //            new TrapezoidProfile.Constraints(1, 0.2));
 //    private final ProfiledPIDController pidController = new ProfiledPIDController(0.04, 0, 0.0001,
 //        new TrapezoidProfile.Constraints(100, 60));
-    private final PIDController pidController = new PIDController(0.04, 0, 0.0001);
+    private final PIDController pidController = new PIDController(0.02, 0, 0.0001);
     private final DriveTrain drive;
     private final String name = "limelight-limlimb";
 
