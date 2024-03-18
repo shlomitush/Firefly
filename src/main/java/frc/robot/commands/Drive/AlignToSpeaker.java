@@ -52,9 +52,9 @@ public class AlignToSpeaker extends Command {
         }else {
             var output = pidController.calculate(pixel);
             this.drive.drive(0, output);
-            SmartDashboard.putNumber("speed", output);
-            SmartDashboard.putNumber("time", Timer.getFPGATimestamp());
-            SmartDashboard.putNumber("setpoint", pidController.getSetpoint().position);
+//            SmartDashboard.putNumber("speed", output);
+//            SmartDashboard.putNumber("time", Timer.getFPGATimestamp());
+//            SmartDashboard.putNumber("setpoint", pidController.getSetpoint().position);
         }
     }
 

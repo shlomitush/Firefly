@@ -13,7 +13,7 @@ import static frc.robot.Constants.Climb.*;
 
 public class ClimbLeft extends SubsystemBase {
     private final TalonSRX climbMotorLeft = new TalonSRX(climbMotorLeftID);
-//    private final DigitalInput climbLeftLimitSwitch = new DigitalInput(climbLeftLimitSwitchID);
+    private final DigitalInput climbLeftLimitSwitch = new DigitalInput(climbLeftLimitSwitchID);
 
 
     public ClimbLeft() {
@@ -31,22 +31,24 @@ public class ClimbLeft extends SubsystemBase {
     }
 
     public void climb(double speed) {
-        if (speed < 0) {
-            speed = Math.max(speed, -climbMotorSpeedUp);
-        } else if (speed > 0){
-            speed = Math.min(speed, climbMotorSpeedDown);
-        }
 
-//        if (!isSafe()) {
-//            speed = 0;
-//        }
+        if (!isSafe() && speed > 0) {
+            speed = 0;
+        }
+        else {
+            if (speed < 0) {
+                speed = Math.max(speed, -climbMotorSpeedUp);
+            } else if (speed > 0){
+                speed = Math.min(speed, climbMotorSpeedDown);
+            }
+        }
 
         climbMotorLeft.set(TalonSRXControlMode.PercentOutput, -speed);
     }
 
-//    public boolean isSafe() {
-//        return climbLeftLimitSwitch.get();
-//    }
+    public boolean isSafe() {
+        return climbLeftLimitSwitch.get();
+    }
 }
 
 //dddf

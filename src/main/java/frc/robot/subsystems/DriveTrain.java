@@ -108,13 +108,13 @@ public class DriveTrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("gyro angle", getRobotAngle());
-
-        SmartDashboard.putNumber("gyro orientation", gyro.getAngle() % 360);
-        SmartDashboard.putNumber("left travel dist", getLeftTravelDistanceMetres());
-        SmartDashboard.putNumber("right travel dist", getRightTravelDistanceMetres());
-        SmartDashboard.putNumber("left enc pos", leftEncoder.getPosition());
-        SmartDashboard.putNumber("right enc pos", rightEncoder.getPosition());
+//        SmartDashboard.putNumber("gyro angle", getRobotAngle());
+//
+//        SmartDashboard.putNumber("gyro orientation", gyro.getAngle() % 360);
+//        SmartDashboard.putNumber("left travel dist", getLeftTravelDistanceMetres());
+//        SmartDashboard.putNumber("right travel dist", getRightTravelDistanceMetres());
+//        SmartDashboard.putNumber("left enc pos", leftEncoder.getPosition());
+//        SmartDashboard.putNumber("right enc pos", rightEncoder.getPosition());
 
         odometry.update(
                 gyro.getRotation2d(),

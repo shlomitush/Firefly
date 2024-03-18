@@ -9,7 +9,7 @@ import frc.robot.utilities.LimelightHelpers;
 
 public class DriveToNote extends Command {
 
-    private final PIDController pidController = new PIDController(0.008, 0, 0.00001);
+//    private final PIDController pidController = new PIDController(0.008, 0, 0.00001);
     private final DriveTrain drive;
     private final FloorIntake floorIntake;
     private final PollyIntake pollyIntake;

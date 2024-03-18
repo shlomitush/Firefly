@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.PollyIntake.*;
@@ -10,6 +11,7 @@ import static frc.robot.Constants.PollyIntake.*;
 public class PollyIntake extends SubsystemBase {
 
     private final TalonSRX pollyIntakeMotor = new TalonSRX(pollyIntakeMotorID);
+    private final DigitalInput pollyIntakeBeamBreaker = new DigitalInput(pollyIntakeBeamBreakID);
 
     public PollyIntake() {
         pollyIntakeMotor.setInverted(true);
@@ -74,4 +76,16 @@ public class PollyIntake extends SubsystemBase {
     public void throwAMP() {
         pollyIntakeMotor.set(ControlMode.PercentOutput, pollyIntakeAMPThrow);
     }
+
+    public boolean noteIn() {
+        return !pollyIntakeBeamBreaker.get();
+    }
+
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        SmartDashboard.putBoolean("note in", noteIn());
+    }
+
 }

@@ -14,8 +14,9 @@ public class AlignToNote extends Command {
 
 //    private final ProfiledPIDController profiledPIDController = new ProfiledPIDController(0.3, 0, 0,
 //            new TrapezoidProfile.Constraints(1, 0.2));
-    private final ProfiledPIDController pidController = new ProfiledPIDController(0.04, 0, 0.0001,
-        new TrapezoidProfile.Constraints(100, 60));
+//    private final ProfiledPIDController pidController = new ProfiledPIDController(0.04, 0, 0.0001,
+//        new TrapezoidProfile.Constraints(100, 60));
+    private final PIDController pidController = new PIDController(0.02, 0, 0.0001);
     private final DriveTrain drive;
     private final String name = "limelight-limlimb";
 
@@ -34,7 +35,8 @@ public class AlignToNote extends Command {
 
     @Override
     public void initialize() {
-        pidController.reset(LimelightHelpers.getTX(name));
+        pidController.reset();
+//        pidController.reset(LimelightHelpers.getTX(name));
     }
 
     @Override
@@ -51,9 +53,9 @@ public class AlignToNote extends Command {
         }else {
             var output = pidController.calculate(pixel);
             this.drive.drive(0, -output);
-            SmartDashboard.putNumber("speed", -output);
-            SmartDashboard.putNumber("time", Timer.getFPGATimestamp());
-            SmartDashboard.putNumber("setpoint", pidController.getSetpoint().position);
+//            SmartDashboard.putNumber("speed", -output);
+//            SmartDashboard.putNumber("time", Timer.getFPGATimestamp());
+//            SmartDashboard.putNumber("setpoint", pidController.getSetpoint().position);
         }
     }
 
@@ -64,7 +66,8 @@ public class AlignToNote extends Command {
 
     @Override
     public boolean isFinished() {
-        return pidController.atGoal();
+//        return pidController.atGoal();
+        return pidController.atSetpoint();
 //        return Math.abs(LimelightHelpers.getTX(name)) < 1.5;
     }
 }

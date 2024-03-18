@@ -1,31 +1,31 @@
-package frc.robot.commands.Intake;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.FloorIntake;
 import frc.robot.subsystems.PollyIntake;
 
-
-public class FloorIn extends Command {
+public class Vibrate extends Command {
     private final PollyIntake pollyIntake;
-    private final FloorIntake floorIntake;
     private final CommandXboxController driverController1;
     private final CommandXboxController driverController2;
-
-    public FloorIn(PollyIntake pollyIntake, FloorIntake floorIntake, CommandXboxController driverController1, CommandXboxController driverController2) {
+    public Vibrate(PollyIntake pollyIntake, CommandXboxController driverController1,
+                   CommandXboxController driverController2) {
         this.pollyIntake = pollyIntake;
-        this.floorIntake = floorIntake;
         this.driverController1 = driverController1;
         this.driverController2 = driverController2;
-
-        addRequirements(pollyIntake, floorIntake);
     }
 
     @Override
     public void initialize() {
-        floorIntake.pickUpFromFloor();
-        this.pollyIntake.floorIn();
+        if (pollyIntake.noteIn()) {
+            driverController1.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0.7);
+            driverController2.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0.7);
+        }
+        else {
+            driverController1.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
+            driverController2.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
+        }
     }
 
     @Override
@@ -33,7 +33,8 @@ public class FloorIn extends Command {
         if (pollyIntake.noteIn()) {
             driverController1.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0.7);
             driverController2.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0.7);
-        } else {
+        }
+        else {
             driverController1.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
             driverController2.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
         }
@@ -41,11 +42,8 @@ public class FloorIn extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        this.floorIntake.stop();
-        this.pollyIntake.stop();
         driverController1.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
         driverController2.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
-
     }
 
     @Override
