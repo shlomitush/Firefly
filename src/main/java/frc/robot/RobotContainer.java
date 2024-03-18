@@ -7,10 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Climb.ClimbCommand;
 import frc.robot.commands.Climb.ClimbDownCommand;
-//import frc.robot.commands.Climb.ClimbDownRightCommand;
 import frc.robot.commands.Climb.ClimbUpCommand;
-//import frc.robot.commands.Climb.ClimbUpRightCommand;
-//import frc.robot.commands.Climb.ClimbUpRightCommand;
 import frc.robot.commands.Drive.*;
 import frc.robot.commands.Intake.FeederIn;
 import frc.robot.commands.Intake.FloorIn;
@@ -21,9 +18,7 @@ import frc.robot.commands.ThrowWheel.ThrowAMP;
 import frc.robot.enums.LimeLightState;
 import frc.robot.subsystems.*;
 
-import java.util.function.DoubleSupplier;
 
-//hey
 public class RobotContainer {
   private boolean limlim;
 
@@ -40,11 +35,8 @@ public class RobotContainer {
         this.limlim = true;
     }
   }
-//  private final Robot robot = new Robot();
-//  private RoundInfo roundInfo = new RoundInfo(robot.getAlliance());
 
 
-  //  private final Intake m_intake = new Intake();
   private final CommandXboxController driverController1 = new CommandXboxController(OperatorConstants.kDriverControllerPort1);
 
   private final CommandXboxController driverController2 =
@@ -66,12 +58,6 @@ public class RobotContainer {
 
   private final ClimbCommand climbCommand = new ClimbCommand(climbRight, climbLeft,
           driverController2::getRightY, driverController2::getLeftY, driverController2.leftBumper());
-//  private final ClimbUpRightCommand climbUpRightCommand = new ClimbUpRightCommand(new ClimbRight(),
-//          driverController2::getRightY);
-
-
-//  private final ClimbUpCommand climbUpCommand = new ClimbUpCommand(climb);
-//  private final ClimbDownCommand climbDownCommand = new ClimbDownCommand(climb);
   private final FeederIn feederIn = new FeederIn(pollyIntake, flyWheel);
   private final FloorIn floorIn = new FloorIn(pollyIntake, floorIntake);
   private final Throw aThrow = new Throw(pollyIntake, flyWheel);
@@ -109,18 +95,14 @@ public class RobotContainer {
     driverController2.povDown().whileTrue(downOut);
     driverController2.rightTrigger().whileTrue(new ClimbUpCommand(climb));
     driverController2.leftTrigger().whileTrue(new ClimbDownCommand(climb));
-    driverController2.a().whileTrue(autoNote());
-//    driverController2.y().onTrue(new TurnInAngle(m_driveTrain, 60));
+    driverController2.a().whileTrue(autoNoteLong());
+    driverController2.y().whileTrue(new FloorIn(pollyIntake, floorIntake));
 
 
     m_driveTrain.setDefaultCommand(m_driveTrainCommand);
     climbLeft.setDefaultCommand(climbCommand);
     climbRight.setDefaultCommand(climbCommand);
 
-
-
-//    m_driverController.a().whileTrue(alignToNote.withTimeout(1).andThen(driveToNote));
-//    m_driverController.a().onTrue(alignToNote.andThen(driveToNote).withTimeout(2));
 
   }
 
@@ -193,43 +175,6 @@ public class RobotContainer {
                     new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 25).withTimeout(3),
                     new FeederIn(pollyIntake, flyWheel).withTimeout(0.2),
                     completeThrow());
-//    return completeThrow()
-//            .andThen(new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -20).withTimeout(3),
-//                    new WaitCommand(0.2),
-//                    new TurnInAngle(m_driveTrain, -70),
-//                    new DriveXCentim(m_driveTrain , floorIntake, pollyIntake, -160).withTimeout(5),
-//                    limlim ? autoNote() :
-//                            new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2).withTimeout(5),
-//                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 210).withTimeout(5),
-//                    new WaitCommand(0.2),
-//                    new TurnInAngle(m_driveTrain, 70),
-//                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 25).withTimeout(5),
-//                    completeThrow());
-//    return new TurnInAngle(m_driveTrain, 70).andThen(
-//            new WaitCommand(0.3),
-//            new TurnInAngle(m_driveTrain, -70)
-//    );
-//    return completeThrow()
-//            .andThen(new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -20).withTimeout(5),
-//                    new TurnInAngle(m_driveTrain, -60).withTimeout(0.5),
-//                    new DriveXCentim(m_driveTrain , floorIntake, pollyIntake, -160).withTimeout(5),
-//                    limlim ? autoNote() :
-//                            new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2).withTimeout(5),
-//                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 210).withTimeout(5),
-//                    new TurnInAngle(m_driveTrain, 60).withTimeout(5),
-//                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 25).withTimeout(5),
-//                    completeThrow());
-//    return new TurnInAngle(m_driveTrain, -70)
-//            .andThen(completeThrow,
-//                    new TurnInAngle(m_driveTrain, 70),
-//                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -50),
-//                    limlim ? autoNote() :
-//                            new DriveToNoteBrute(m_driveTrain, floorIntake, pollyIntake).withTimeout(2),
-//                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 300), backALittle.withTimeout(2.0), //
-//                    // לבדוק כמה
-//                    // בדיוק - זה קריטי
-//                    new TurnInAngle(m_driveTrain, -70),
-//                    completeThrow);
     }
 
   public Command getAutonomousCommandOUT() {
@@ -265,4 +210,6 @@ public Command autoNote() {
     return new AlignToNote(m_driveTrain).repeatedly().withTimeout(1.5).andThen(new DriveXCentim(m_driveTrain, floorIntake
             ,pollyIntake, -80).withTimeout(2.5));
   }
+
+
 }

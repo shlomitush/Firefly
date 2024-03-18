@@ -66,6 +66,7 @@ public final class Constants {
 
   public static class PollyIntake {
     public static final int pollyIntakeMotorID = 32;
+    public static final int pollyIntakeBeamBreakID = 3;
 
     public static final double pollyIntakeSpeedFloorIn = 0.3;
     public static final double pollyIntakeSpeedFeederIn = 0.7;

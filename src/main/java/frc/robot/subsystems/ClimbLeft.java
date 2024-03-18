@@ -42,7 +42,7 @@ public class ClimbLeft extends SubsystemBase {
                 speed = Math.min(speed, climbMotorSpeedDown);
             }
         }
-        
+
         climbMotorLeft.set(TalonSRXControlMode.PercentOutput, -speed);
     }
 
