@@ -10,6 +10,7 @@ import static frc.robot.Constants.PollyIntake.*;
 public class PollyIntake extends SubsystemBase {
 
     private final TalonSRX pollyIntakeMotor = new TalonSRX(pollyIntakeMotorID);
+//    private final DigitalInput pollyIntakeBeamBreaker = new DigitalInput(pollyIntakeBeamBreakerID);
 
     public PollyIntake() {
         pollyIntakeMotor.setInverted(true);
@@ -74,4 +75,11 @@ public class PollyIntake extends SubsystemBase {
     public void throwAMP() {
         pollyIntakeMotor.set(ControlMode.PercentOutput, pollyIntakeAMPThrow);
     }
+
+//    public boolean noteIn() {
+//        return pollyIntakeBeamBreaker.get();
+//    }
+
+
+
 }
