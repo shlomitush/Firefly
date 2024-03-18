@@ -3,12 +3,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.Climb.*;
 
 public class ClimbRight extends SubsystemBase {
     private final TalonSRX climbMotorRight = new TalonSRX(climbMotorRightID);
+//    private final DigitalInput climbRightLimitSwitch = new DigitalInput(climbRightLimitSwitchID);
 
 
     public ClimbRight() {
@@ -27,9 +29,17 @@ public class ClimbRight extends SubsystemBase {
     public void climb(double speed) {
         if (speed < 0) {
             speed = Math.max(speed, -climbMotorSpeedUp);
-        } if (speed > 0){
+        } else if (speed > 0){
             speed = Math.min(speed, climbMotorSpeedDown);
         }
+
+//        if (!isSafe()) {
+//            speed = 0;
+//        }
+
         climbMotorRight.set(TalonSRXControlMode.PercentOutput, speed);
     }
+//    public boolean isSafe() {
+//        return climbRightLimitSwitch.get();
+//    }
 }

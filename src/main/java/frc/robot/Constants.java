@@ -56,6 +56,8 @@ public final class Constants {
   public static class Climb {
     public static final int climbMotorLeftID = 42;
     public static final int climbMotorRightID = 41;
+    public static final int climbLeftLimitSwitchID = 1;
+    public static final int climbRightLimitSwitchID = 2;
 
     public static final double climbMotorSpeedUp = 0.8;
     public static final double climbMotorSpeedDown = 0.5;

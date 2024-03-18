@@ -65,7 +65,7 @@ public class RobotContainer {
           driverController1.getRawAxis(4), driverController1.leftBumper());
 
   private final ClimbCommand climbCommand = new ClimbCommand(climbRight, climbLeft,
-          driverController2::getRightY, driverController2::getLeftY);
+          driverController2::getRightY, driverController2::getLeftY, driverController2.leftBumper());
 //  private final ClimbUpRightCommand climbUpRightCommand = new ClimbUpRightCommand(new ClimbRight(),
 //          driverController2::getRightY);
 
@@ -149,11 +149,11 @@ public class RobotContainer {
   public Command getAutonomousCommandCenter() {
     return completeThrow()
             .andThen(new DriveXCentim(m_driveTrain , floorIntake, pollyIntake, -155).withTimeout(5),
-                    limlim ? autoNote() :
+//                    limlim ? autoNote() :
                             new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -50).withTimeout(5),
                     new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, 215).withTimeout(5),
 //                    new WaitCommand(0.2),
-                    completeThrow());
+                    completeThrow().withTimeout(3));
   }
 
   public Command getAutonomousCommandLeft() {
