@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
@@ -42,6 +43,10 @@ public class RobotContainer {
   private final CommandXboxController driverController2 =
           new CommandXboxController(OperatorConstants.kDriverControllerPort2);
 
+  private final XboxController operatorController = new XboxController(3);
+
+
+
   // subsystems
   private final DriveTrain m_driveTrain = new DriveTrain();
   private final FlyWheel flyWheel = new FlyWheel();
@@ -59,7 +64,7 @@ public class RobotContainer {
   private final ClimbCommand climbCommand = new ClimbCommand(climbRight, climbLeft,
           driverController2::getRightY, driverController2::getLeftY, driverController2.leftBumper());
   private final FeederIn feederIn = new FeederIn(pollyIntake, flyWheel);
-  private final FloorIn floorIn = new FloorIn(pollyIntake, floorIntake);
+  private final FloorIn floorIn = new FloorIn(pollyIntake, floorIntake, driverController1, driverController2);
   private final Throw aThrow = new Throw(pollyIntake, flyWheel);
   private final BackALittle backALittle = new BackALittle(pollyIntake, flyWheel);
   private final DownOut downOut = new DownOut(pollyIntake, flyWheel, floorIntake);
@@ -96,12 +101,14 @@ public class RobotContainer {
     driverController2.rightTrigger().whileTrue(new ClimbUpCommand(climb));
     driverController2.leftTrigger().whileTrue(new ClimbDownCommand(climb));
     driverController2.a().whileTrue(autoNoteLong());
-    driverController2.y().whileTrue(new FloorIn(pollyIntake, floorIntake));
+    driverController2.y().whileTrue(new FloorIn(pollyIntake, floorIntake, driverController1, driverController2));
 
 
     m_driveTrain.setDefaultCommand(m_driveTrainCommand);
     climbLeft.setDefaultCommand(climbCommand);
     climbRight.setDefaultCommand(climbCommand);
+
+
 
 
   }
