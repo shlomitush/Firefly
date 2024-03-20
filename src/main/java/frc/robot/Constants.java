@@ -48,7 +48,7 @@ public final class Constants {
 
   public static class FloorIntake {
     public static final int floorIntakeMotorID = 31;
-    public static final double floorIntakeSpeed = 0.6;
+    public static final double floorIntakeSpeed = 0.7;
     public static final double floorIntakeSlowUpOutSpeed = 0.3;
 
   }

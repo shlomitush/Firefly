@@ -46,6 +46,8 @@ public class FloorIn extends Command {
         driverController1.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
         driverController2.getHID().setRumble(GenericHID.RumbleType.kBothRumble, 0);
 
+
+
     }
 
     @Override
