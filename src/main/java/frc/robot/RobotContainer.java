@@ -60,7 +60,7 @@ public class RobotContainer {
 
   // commands
   private final DriveTrainCommand m_driveTrainCommand = new DriveTrainCommand(m_driveTrain, driverController1::getLeftY, ()->
-          driverController1.getRawAxis(4), driverController1.leftBumper());
+          driverController1.getRawAxis(4), driverController1.leftBumper(), driverController2.rightBumper());
 
   private final ClimbCommand climbCommand = new ClimbCommand(climbRight, climbLeft,
           driverController2::getRightY, driverController2::getLeftY, driverController2.leftBumper());
@@ -119,7 +119,6 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-
     return new BackALittle(pollyIntake, flyWheel).withTimeout(1.0)
             .andThen(new Throw(pollyIntake, flyWheel).withTimeout(2.5),
                     new DriveXCentim(m_driveTrain,floorIntake, pollyIntake, -50).withTimeout(5),
@@ -188,7 +187,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommandOUT() {
     return completeThrow().withTimeout(2)
-            .andThen(new DriveTrainCommand(m_driveTrain, ()-> 0.8, ()-> 0, ()->false).withTimeout(1));
+            .andThen(new DriveTrainCommand(m_driveTrain, ()-> 0.8, ()-> 0, ()->false, ()->false).withTimeout(1));
 //                    new DriveXCentim(m_driveTrain, floorIntake, pollyIntake, -400).withTimeout(15));
   }
 
