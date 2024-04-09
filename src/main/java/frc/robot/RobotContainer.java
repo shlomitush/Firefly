@@ -20,6 +20,8 @@ import frc.robot.commands.ThrowWheel.ThrowAMP;
 import frc.robot.enums.LimeLightState;
 import frc.robot.subsystems.*;
 
+import java.util.HashMap;
+
 
 public class RobotContainer {
   private boolean limlim;
@@ -91,6 +93,7 @@ public class RobotContainer {
 //    driverController1.a().onTrue(new TurnInAngle(m_driveTrain, 180).withTimeout(0.4));
     driverController1.rightTrigger().whileTrue(new ClimbUpCommand(climb));
     driverController1.leftTrigger().whileTrue(new ClimbDownCommand(climb).withTimeout(2));
+    new WaitCommand(1).schedule();
 
     // controller 2 - buttons
     driverController2.rightBumper().whileTrue(completeThrow());
@@ -109,8 +112,6 @@ public class RobotContainer {
     m_driveTrain.setDefaultCommand(m_driveTrainCommand);
     climbLeft.setDefaultCommand(climbCommand);
     climbRight.setDefaultCommand(climbCommand);
-
-
 
 
   }
